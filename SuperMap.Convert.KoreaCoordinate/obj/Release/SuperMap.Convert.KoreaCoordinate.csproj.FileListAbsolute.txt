@@ -1,0 +1,8 @@
+C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\bin\Release\SuperMap.Convert.KoreaCoordinate.dll
+C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\bin\Release\SuperMap.Convert.KoreaCoordinate.pdb
+C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\bin\Release\SuperMap.Data.dll
+C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\bin\Release\SuperMap.Data.xml
+C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\bin\Release\zh-CN\SuperMap.Data.resources.dll
+C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\obj\Release\SuperMap.Convert.KoreaCoordinate.dll
+C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\obj\Release\SuperMap.Convert.KoreaCoordinate.pdb
+C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\obj\Release\SuperMap.Convert.KoreaCoordinate.csprojResolveAssemblyReference.cache
