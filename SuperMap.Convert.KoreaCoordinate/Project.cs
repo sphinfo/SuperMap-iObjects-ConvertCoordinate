@@ -17,19 +17,14 @@ namespace SuperMap.Convert.KoreaCoordinate
         /// <returns></returns>
         public Dataset BesselToGRS80PCS(Datasource sourceDatasource, string sourceDatasetName, string esriPrjFile)
         {
-            // // HelperConvert.Log("BesselToGRS80PCS Start");
-            
             Dataset GRS80GCSDataset = BesselToGRS80GCS(sourceDatasource, sourceDatasetName);
             if (GRS80GCSDataset == null) return null;
 
             PrjCoordSys prjCoordSys = new PrjCoordSys();
-            prjCoordSys.FromFile(@esriPrjFile, PrjFileType.Esri);
-                                    
+            prjCoordSys.FromFile(@esriPrjFile, PrjFileType.Esri);                        
             bool result = CoordSysTranslator.Convert(GRS80GCSDataset, prjCoordSys, new CoordSysTransParameter(), CoordSysTransMethod.PositionVector);
             if (result)
             {
-                // HelperConvert.Log("BesselToGRS80PCS End");
-
                 return GRS80GCSDataset;
             }
             else
@@ -40,8 +35,6 @@ namespace SuperMap.Convert.KoreaCoordinate
 
         public Dataset BesselToGRS80PCS(Datasource sourceDatasource, string sourceDatasetName, string esriPrjFile, Double offsetX, Double offsetY)
         {
-            // HelperConvert.Log("BesselToGRS80PCS Start");
-
             Dataset GRS80GCSDataset = BesselToGRS80GCS(sourceDatasource, sourceDatasetName);
             if (GRS80GCSDataset == null) return null;
 
@@ -51,7 +44,6 @@ namespace SuperMap.Convert.KoreaCoordinate
             bool result = CoordSysTranslator.Convert(GRS80GCSDataset, prjCoordSys, new CoordSysTransParameter(), CoordSysTransMethod.PositionVector);
             if (result)
             {
-                // HelperConvert.Log("BesselToGRS80PCS End");
                 if ((offsetX == 0) && (offsetY == 0))
                 {
                     return GRS80GCSDataset;                 
@@ -67,11 +59,9 @@ namespace SuperMap.Convert.KoreaCoordinate
                 return null;
             }
         }
-
+                
         public Dataset BesselToGRS80PCS(Datasource sourceDatasource, Dataset gcsDataset, string esriPrjFile, Double offsetX, Double offsetY)
         {
-            // HelperConvert.Log("BesselToGRS80PCS Start");
-
             Dataset GRS80GCSDataset = BesselToGRS80GCS(sourceDatasource, gcsDataset);
             if (GRS80GCSDataset == null) return null;
 
@@ -80,8 +70,7 @@ namespace SuperMap.Convert.KoreaCoordinate
             
             bool result = CoordSysTranslator.Convert(GRS80GCSDataset, prjCoordSys, new CoordSysTransParameter(), CoordSysTransMethod.PositionVector);
             if (result)
-            {
-                // HelperConvert.Log("BesselToGRS80PCS End");
+            {              
                 if ((offsetX == 0) && (offsetY == 0))
                 {
                     return GRS80GCSDataset;
@@ -106,8 +95,7 @@ namespace SuperMap.Convert.KoreaCoordinate
             bool result = ConvertBesselDatasetVectorToGRS80(gcsDataset as DatasetVector, emptyGCSDatasetVector);
             if (result)
             {
-                // HelperConvert.Log("BesselToGRS80GCS End");
-                sourceDatasource.Datasets.Delete(gcsDataset.Name);
+                sourceDatasource.Datasets.Delete(gcsDataset.Name);                
                 return emptyGCSDatasetVector as Dataset;
             }
             else
@@ -116,16 +104,8 @@ namespace SuperMap.Convert.KoreaCoordinate
             }
         }        
 
-        /// <summary>
-        /// 64 bit에서 사용
-        /// </summary>
-        /// <param name="sourceDatasource"></param>
-        /// <param name="sourceDatasetName"></param>
-        /// <returns></returns>
         private Dataset BesselToGRS80GCS(Datasource sourceDatasource, string sourceDatasetName)
         {
-            // HelperConvert.Log("BesselToGRS80GCS Start");
-
             Dataset sourceDataset = sourceDatasource.Datasets[sourceDatasetName];
             if (sourceDataset == null) return null;
 
@@ -138,8 +118,6 @@ namespace SuperMap.Convert.KoreaCoordinate
             bool result = ConvertBesselDatasetVectorToGRS80(gcsDataset as DatasetVector, emptyGCSDatasetVector);
             if (result)
             {
-                // HelperConvert.Log("BesselToGRS80GCS End");
-
                 return emptyGCSDatasetVector as Dataset;
             }
             else
@@ -299,58 +277,62 @@ namespace SuperMap.Convert.KoreaCoordinate
 
         private bool ConvertBesselDatasetVectorToGRS80(DatasetVector sourceDatasetVector, DatasetVector targetDatasetVector)
         {
-            // HelperConvert.Log("ConvertBesselDatasetVectorToGRS80 Start");
-
             QueryParameter queryParameter = new QueryParameter();
             queryParameter.CursorType = CursorType.Dynamic;
 
             Recordset sourceRs = sourceDatasetVector.Query(queryParameter);
             Recordset targetRs = targetDatasetVector.Query(queryParameter);
 
+            targetRs.Batch.Begin();
             sourceRs.MoveFirst();
+
             while (!sourceRs.IsEOF)
             {
                 Geometry sourceGeometry = sourceRs.GetGeometry();
                 Geometry targetGeometry = HelperConvert.getConvertToGRS80Geometry(sourceGeometry);
 
                 targetRs.AddNew(targetGeometry);
-                targetRs.Update();
+                // targetRs.Update();
 
                 HelperConvert.CopyAttribute(sourceRs, targetRs);
 
                 sourceRs.MoveNext();
             }
 
+            targetRs.Batch.Update();
             targetDatasetVector.Close();
             targetDatasetVector.ComputeBounds();
-
-            // HelperConvert.Log("ConvertBesselDatasetVectorToGRS80 End");
 
             return true;
         }
 
         private bool ConvertGRS80DatasetVectorToBessel(DatasetVector sourceDatasetVector, DatasetVector targetDatasetVector)
         {
-            QueryParameter queryParameter = new QueryParameter();
-            queryParameter.CursorType = CursorType.Dynamic;
+            QueryParameter sourceQueryParameter = new QueryParameter();
+            sourceQueryParameter.CursorType = CursorType.Static;
+            
+            QueryParameter targetQueryParameter = new QueryParameter();
+            targetQueryParameter.CursorType = CursorType.Dynamic;
 
-            Recordset sourceRs = sourceDatasetVector.Query(queryParameter);
-            Recordset targetRs = targetDatasetVector.Query(queryParameter);
+            Recordset sourceRs = sourceDatasetVector.Query(sourceQueryParameter);
+            Recordset targetRs = targetDatasetVector.Query(targetQueryParameter);
 
+            targetRs.Batch.Begin();            
             sourceRs.MoveFirst();
             while (!sourceRs.IsEOF)
             {
                 Geometry sourceGeometry = sourceRs.GetGeometry();
-                Geometry targetGeometry = HelperConvert.getConvertToBesselGeometry(sourceGeometry);
+                // Geometry targetGeometry = HelperConvert.getConvertToBesselGeometry(sourceGeometry);
+                Geometry targetGeometry = HelperConvert.getConvertToBesselGeometry1(sourceGeometry);
 
                 targetRs.AddNew(targetGeometry);
-                targetRs.Update();
 
                 HelperConvert.CopyAttribute(sourceRs, targetRs);
                 
                 sourceRs.MoveNext();
             }
 
+            targetRs.Batch.Update();
             targetDatasetVector.Close();
             targetDatasetVector.ComputeBounds();
 

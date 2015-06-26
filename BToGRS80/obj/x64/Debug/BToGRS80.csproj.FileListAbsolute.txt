@@ -1,0 +1,14 @@
+C:\Temp\test\BToGRS80\BToGRS80\bin\x64\Debug\BToGRS80.exe
+C:\Temp\test\BToGRS80\BToGRS80\bin\x64\Debug\BToGRS80.pdb
+C:\Temp\test\BToGRS80\BToGRS80\bin\x64\Debug\SuperMap.Convert.KoreaCoordinate.dll
+C:\Temp\test\BToGRS80\BToGRS80\bin\x64\Debug\SuperMap.Data.dll
+C:\Temp\test\BToGRS80\BToGRS80\bin\x64\Debug\osr_csharp.dll
+C:\Temp\test\BToGRS80\BToGRS80\bin\x64\Debug\SuperMap.Convert.KoreaCoordinate.pdb
+C:\Temp\test\BToGRS80\BToGRS80\bin\x64\Debug\SuperMap.Data.xml
+C:\Temp\test\BToGRS80\BToGRS80\bin\x64\Debug\zh-CN\SuperMap.Data.resources.dll
+C:\Temp\test\BToGRS80\BToGRS80\obj\x64\Debug\BToGRS80.csprojResolveAssemblyReference.cache
+C:\Temp\test\BToGRS80\BToGRS80\obj\x64\Debug\BToGRS80.Properties.Resources.resources
+C:\Temp\test\BToGRS80\BToGRS80\obj\x64\Debug\BToGRS80.SampleForm.resources
+C:\Temp\test\BToGRS80\BToGRS80\obj\x64\Debug\BToGRS80.csproj.GenerateResource.Cache
+C:\Temp\test\BToGRS80\BToGRS80\obj\x64\Debug\BToGRS80.exe
+C:\Temp\test\BToGRS80\BToGRS80\obj\x64\Debug\BToGRS80.pdb

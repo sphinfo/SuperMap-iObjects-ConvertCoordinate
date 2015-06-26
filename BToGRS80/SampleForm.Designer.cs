@@ -37,7 +37,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtGRS80PCS = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.btnToGRS80 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -49,7 +48,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.txtBesselPCS = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -57,12 +55,16 @@
             this.txtSourceDataset = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtTranslateDataset = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.cbGRS80PCS = new System.Windows.Forms.ComboBox();
+            this.cbBesselPCS = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbGRS80PCS);
             this.groupBox1.Controls.Add(this.cbBesselControlPoint);
             this.groupBox1.Controls.Add(this.textBox5);
             this.groupBox1.Controls.Add(this.textBox4);
@@ -71,7 +73,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.txtGRS80PCS);
+            this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.btnToGRS80);
             this.groupBox1.Location = new System.Drawing.Point(11, 127);
@@ -158,14 +160,6 @@
             this.label1.TabIndex = 21;
             this.label1.Text = "GRS80(PCS)";
             // 
-            // txtGRS80PCS
-            // 
-            this.txtGRS80PCS.Location = new System.Drawing.Point(93, 49);
-            this.txtGRS80PCS.Name = "txtGRS80PCS";
-            this.txtGRS80PCS.Size = new System.Drawing.Size(440, 21);
-            this.txtGRS80PCS.TabIndex = 19;
-            this.txtGRS80PCS.Text = "C:\\Data\\좌표계\\projection\\PCS_ITRF2000(GRS80)_TM(중부원점).prj";
-            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -187,6 +181,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cbBesselPCS);
             this.groupBox2.Controls.Add(this.cbGRS80ControlPoint);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.textBox7);
@@ -195,7 +190,6 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label17);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.txtBesselPCS);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Location = new System.Drawing.Point(11, 264);
             this.groupBox2.Name = "groupBox2";
@@ -214,7 +208,7 @@
             "동해"});
             this.cbGRS80ControlPoint.Location = new System.Drawing.Point(93, 20);
             this.cbGRS80ControlPoint.Name = "cbGRS80ControlPoint";
-            this.cbGRS80ControlPoint.Size = new System.Drawing.Size(446, 20);
+            this.cbGRS80ControlPoint.Size = new System.Drawing.Size(440, 20);
             this.cbGRS80ControlPoint.TabIndex = 25;
             // 
             // label10
@@ -281,14 +275,6 @@
             this.label7.TabIndex = 21;
             this.label7.Text = "X:";
             // 
-            // txtBesselPCS
-            // 
-            this.txtBesselPCS.Location = new System.Drawing.Point(93, 50);
-            this.txtBesselPCS.Name = "txtBesselPCS";
-            this.txtBesselPCS.Size = new System.Drawing.Size(446, 21);
-            this.txtBesselPCS.TabIndex = 18;
-            this.txtBesselPCS.Text = "C:\\Data\\좌표계\\projection\\PCS_BESSEL_TM(중부원점).prj";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -322,7 +308,7 @@
             this.txtDatasource.Name = "txtDatasource";
             this.txtDatasource.Size = new System.Drawing.Size(444, 21);
             this.txtDatasource.TabIndex = 23;
-            this.txtDatasource.Text = "C:\\Data\\좌표변환\\좌표변환.udb";
+            this.txtDatasource.Text = "C:\\Data\\좌표변환\\전달\\좌표변환_TestData2.udb";
             // 
             // txtSourceDataset
             // 
@@ -330,7 +316,7 @@
             this.txtSourceDataset.Name = "txtSourceDataset";
             this.txtSourceDataset.Size = new System.Drawing.Size(444, 21);
             this.txtSourceDataset.TabIndex = 24;
-            this.txtSourceDataset.Text = "IDX_B030_BESSEL_PCS_Orgin";
+            this.txtSourceDataset.Text = "IDX5000_Bessel_ALL_지리원";
             // 
             // label5
             // 
@@ -347,13 +333,47 @@
             this.txtTranslateDataset.Name = "txtTranslateDataset";
             this.txtTranslateDataset.Size = new System.Drawing.Size(444, 21);
             this.txtTranslateDataset.TabIndex = 26;
-            this.txtTranslateDataset.Text = "IDX5000_GRS80_9_지리원_32";
+            this.txtTranslateDataset.Text = "IDX5000_GRS80_ALL_지리원";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(104, -42);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(440, 21);
+            this.textBox1.TabIndex = 19;
+            this.textBox1.Text = "C:\\Data\\좌표계\\projection\\PCS_ITRF2000(GRS80)_TM(중부원점).prj";
+            // 
+            // cbGRS80PCS
+            // 
+            this.cbGRS80PCS.FormattingEnabled = true;
+            this.cbGRS80PCS.Items.AddRange(new object[] {
+            "C:\\Data\\좌표계\\projection\\PCS_ITRF2000(GRS80)_TM(중부원점).prj",
+            "C:\\Data\\좌표계\\projection\\PCS_ITRF2000(GRS80)_TM(동부원점).prj",
+            "C:\\Data\\좌표계\\projection\\PCS_ITRF2000(GRS80)_TM(서부원점).prj",
+            "C:\\Data\\좌표계\\projection\\PCS_ITRF2000(GRS80)_TM(동해원점).prj"});
+            this.cbGRS80PCS.Location = new System.Drawing.Point(92, 48);
+            this.cbGRS80PCS.Name = "cbGRS80PCS";
+            this.cbGRS80PCS.Size = new System.Drawing.Size(440, 20);
+            this.cbGRS80PCS.TabIndex = 23;
+            // 
+            // cbBesselPCS
+            // 
+            this.cbBesselPCS.FormattingEnabled = true;
+            this.cbBesselPCS.Items.AddRange(new object[] {
+            "C:\\Data\\좌표계\\projection\\PCS_BESSEL_TM(중부원점).prj",
+            "C:\\Data\\좌표계\\projection\\PCS_BESSEL_TM(동부원점).prj",
+            "C:\\Data\\좌표계\\projection\\PCS_BESSEL_TM(서부원점).prj",
+            ""});
+            this.cbBesselPCS.Location = new System.Drawing.Point(93, 50);
+            this.cbBesselPCS.Name = "cbBesselPCS";
+            this.cbBesselPCS.Size = new System.Drawing.Size(440, 20);
+            this.cbBesselPCS.TabIndex = 23;
             // 
             // SampleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(574, 486);
+            this.ClientSize = new System.Drawing.Size(574, 418);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtTranslateDataset);
@@ -384,10 +404,8 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox txtGRS80PCS;
         private System.Windows.Forms.Button btnToGRS80;
         private System.Windows.Forms.Button btnToBessel;
-        private System.Windows.Forms.TextBox txtBesselPCS;
         private System.Windows.Forms.TextBox txtDatasource;
         private System.Windows.Forms.TextBox txtSourceDataset;
         private System.Windows.Forms.TextBox textBox5;
@@ -406,5 +424,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cbGRS80ControlPoint;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox cbGRS80PCS;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ComboBox cbBesselPCS;
     }
 }
