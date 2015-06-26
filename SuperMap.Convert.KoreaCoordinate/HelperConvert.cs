@@ -17,7 +17,7 @@ namespace SuperMap.Convert.KoreaCoordinate
             prjCoordSys.GeoCoordSys = geoCoordSys;
             prjCoordSys.Type = PrjCoordSysType.EarthLongitudeLatitude;
 
-            bool result = CoordSysTranslator.Convert(sourceDataset, prjCoordSys, new CoordSysTransParameter(), 
+            bool result = CoordSysTranslator.Convert(sourceDataset, prjCoordSys, new CoordSysTransParameter(),  
                 CoordSysTransMethod.GeocentricTranslation);
             if (result)
             {
@@ -28,24 +28,7 @@ namespace SuperMap.Convert.KoreaCoordinate
                 return null;
             }
         }
-
-        public static Dataset ConvertToGCS(Dataset sourceDataset)
-        {
-            PrjCoordSys prjCoordSys = new PrjCoordSys();
-            prjCoordSys.FromFile(@"C:\Data\좌표계\projection\GCS_BESSEL.prj", PrjFileType.Esri);
-            prjCoordSys.Type = PrjCoordSysType.EarthLongitudeLatitude;
-
-            bool result = CoordSysTranslator.Convert(sourceDataset, prjCoordSys, new CoordSysTransParameter(), CoordSysTransMethod.GeocentricTranslation);
-            if (result)
-            {
-                return sourceDataset;
-            }
-            else
-            {
-                return null;
-            }
-        }        
-        
+       
         public static DatasetVector getEmptyGCSDatasetVector(Datasource sourceDatasource, Dataset sourceDataset, GeoCoordSysType geoCoordSysType)
         {
             DatasetVectorInfo datasetVectorInfo = new DatasetVectorInfo();
@@ -103,8 +86,6 @@ namespace SuperMap.Convert.KoreaCoordinate
 
         public static Geometry getConvertToGRS80Geometry(Geometry geometry)
         {
-            // HelperConvert.Log("getConvertToGRS80Geometry Start");
-            
             if (geometry is GeoRegion)
             {
                 GeoRegion grs80Region = new GeoRegion();
@@ -115,8 +96,6 @@ namespace SuperMap.Convert.KoreaCoordinate
                     Point2Ds points = region[i];
                     grs80Region.AddPart(getConvertToGRS80Points(points));
                 }
-
-                // HelperConvert.Log("getConvertToGRS80Geometry End");
 
                 return grs80Region;
             }
@@ -148,7 +127,7 @@ namespace SuperMap.Convert.KoreaCoordinate
         }
 
         public static Geometry getConvertToBesselGeometry(Geometry geometry)
-        {
+        {        
             if (geometry is GeoRegion)
             {
                 GeoRegion besselRegion = new GeoRegion();
@@ -188,34 +167,69 @@ namespace SuperMap.Convert.KoreaCoordinate
             }
         }
 
+        public static Geometry getConvertToBesselGeometry1(Geometry geometry)
+        {
+            if (geometry.Type == GeometryType.GeoRegion)
+            {
+                GeoRegion besselRegion = new GeoRegion();
+                GeoRegion region = geometry as GeoRegion;
+
+                for (int i = 0; i < region.PartCount; i++)
+                {
+                    Point2Ds points = region[i];
+                    besselRegion.AddPart(getConvertToBesselPoints(points));
+                }
+
+                return besselRegion;
+            }
+            else if (geometry.Type == GeometryType.GeoLine)
+            {
+                GeoLine besselLine = new GeoLine();
+                GeoLine line = geometry as GeoLine;
+
+                for (int i = 0; i < line.PartCount; i++)
+                {
+                    Point2Ds points = line[i];
+                    besselLine.AddPart(getConvertToBesselPoints(points));
+                }
+
+                return besselLine;
+            }
+            else if (geometry.Type == GeometryType.GeoPoint)
+            {
+                GeoPoint point = geometry as GeoPoint;
+                Point2D besselPoint = getConvertToBesselPoint(new Point2D(point.X, point.Y));
+
+                return new GeoPoint(besselPoint);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static void CopyAttribute(Recordset sourceRs, Recordset targetRs)
         {
             FieldInfos sourceFieldInfos = sourceRs.GetFieldInfos();
-
             foreach (FieldInfo sourcefieldInfo in sourceFieldInfos)
             {
-                if ((targetRs.GetFieldInfos().IndexOf(sourcefieldInfo.Name) != 0) && (!sourcefieldInfo.Name.Contains("Sm")))
+                if ((targetRs.GetFieldInfos().IndexOf(sourcefieldInfo.Name) != 0) && (!sourcefieldInfo.IsSystemField))
                 {
                     targetRs.Edit(); 
                     targetRs.SetFieldValue(sourcefieldInfo.Name, sourceRs.GetFieldValue(sourcefieldInfo.Name));
                     targetRs.Update();
                 }
             }
-
         }
 
         private static Point2Ds getConvertToGRS80Points(Point2Ds points)
         {
-            // HelperConvert.Log("getConvertToGRS80Points Start");
-
             Point2Ds grs80Points = new Point2Ds();
 
             foreach (Point2D pt in points)
             {
                 grs80Points.Add(getConvertToGRS80Point(pt));
             }
-
-            // HelperConvert.Log("getConvertToGRS80Points End");
 
             return grs80Points;
         }
@@ -342,7 +356,9 @@ namespace SuperMap.Convert.KoreaCoordinate
             queryParameter.CursorType = CursorType.Dynamic;
 
             Recordset recordSet = datasetVector.Query(queryParameter);
+            recordSet.Batch.Begin();
             recordSet.MoveFirst();
+
             while (!recordSet.IsEOF)
             {
                 recordSet.Edit();
@@ -351,10 +367,10 @@ namespace SuperMap.Convert.KoreaCoordinate
                 sourceGeometry.Offset(offsetX, offsetY);
                 
                 recordSet.SetGeometry(sourceGeometry);
-                recordSet.Update();
-
                 recordSet.MoveNext();
             }
+
+            recordSet.Batch.Update();
         }
 
         private static string GetDateTime()

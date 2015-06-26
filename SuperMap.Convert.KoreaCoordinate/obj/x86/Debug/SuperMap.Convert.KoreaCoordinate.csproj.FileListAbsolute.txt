@@ -5,3 +5,4 @@ C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\bin\x86\Debug\SuperMap.Da
 C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\bin\x86\Debug\zh-CN\SuperMap.Data.resources.dll
 C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\obj\x86\Debug\SuperMap.Convert.KoreaCoordinate.dll
 C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\obj\x86\Debug\SuperMap.Convert.KoreaCoordinate.pdb
+C:\Temp\test\BToGRS80\SuperMap.Convert.KoreaCoordinate\obj\x86\Debug\SuperMap.Convert.KoreaCoordinate.csprojResolveAssemblyReference.cache
